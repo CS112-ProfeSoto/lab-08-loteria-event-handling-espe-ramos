@@ -19,7 +19,7 @@ import javafx.event.EventHandler;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application implements EventHandler<ActionEvent> {
+public class HelloApplication extends Application {
 
     //CONSTANTS
     private Label messageLabel;
@@ -45,11 +45,28 @@ public class HelloApplication extends Application implements EventHandler<Action
         messageLabel = new Label("Click the button below to randomly draw a card. " +
                 "The progress bar will indicate how far we're into the game.");
         Button drawCardButton = new Button("Draw Random Card");
-        drawCardButton.setOnAction(this);
+        //drawCardButton.setOnAction(this); previous code
+        //anonymous class
+        drawCardButton.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        System.out.println("Button clicked");
+                        //get random card
+                        int randomInt = (int) (Math.random() * LOTERIA_CARDS.length); //generates # 0-3
+                        LoteriaCard randomCard = LOTERIA_CARDS[randomInt];
+                        //changes card image to random
+                        cardImageView.setImage(randomCard.getImage()); //looks like constructor cardImageView
 
-        //customize components
-       // titleLabel.setAlignment((Pos.CENTER));
-        titleLabel.setFont(new Font(15));
+                        //message label changes with new card
+                        messageLabel.setText(randomCard.getCardName());
+                    }
+                }
+        );
+
+                //customize components
+                // titleLabel.setAlignment((Pos.CENTER));
+                titleLabel.setFont(new Font(15));
 
         cardImageView.setFitHeight(300);
         cardImageView.setPreserveRatio(true);
@@ -82,10 +99,13 @@ public class HelloApplication extends Application implements EventHandler<Action
     //anonymous class
     drawCardButton.setOnAction(new EventHandler<ActionEvent>() {
         @Override public void handle(ActionEvent e) {
-            messageLabel.setText(titleLabelTextField.getText());
+            messageLabel.setText(titleLabel.getText());
         }
-    }); */
+    });*/
 
+
+    /*
+    //Handle Method with concrete class "implements EventHandler<ActionEvent>"
     @Override
     public  void handle(ActionEvent actionEvent){
         System.out.println("Button clicked");
@@ -98,7 +118,7 @@ public class HelloApplication extends Application implements EventHandler<Action
         //message label changes with new card
         messageLabel.setText(randomCard.getCardName());
 
-    }
+    } */
     public static void main(String[] args) {
         launch();
     }
