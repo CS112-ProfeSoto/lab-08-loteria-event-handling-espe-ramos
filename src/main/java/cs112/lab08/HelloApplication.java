@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
@@ -23,10 +22,9 @@ import java.io.IOException;
 public class HelloApplication extends Application implements EventHandler<ActionEvent> {
 
     //CONSTANTS
-    private TextField titleLabelTextField;
     private Label messageLabel;
     private Button drawCardButton;
-  //  private image cardImageViewField; //??
+    private ImageView cardImageView;
 
     //array of LoteriaCards to use for game:
     private static final LoteriaCard[] LOTERIA_CARDS = {
@@ -43,8 +41,8 @@ public class HelloApplication extends Application implements EventHandler<Action
         //removed FXML code, fill this in with components, scene, stage, etc.
         //set up components
         Label titleLabel = new Label("Welcome to EChALE STEM Loteria!");
-        ImageView cardImageView = new ImageView(defaultCardImage.getImage());
-        Label messageLabel = new Label("Click the button below to randomly draw a card. " +
+        cardImageView = new ImageView(defaultCardImage.getImage());
+        messageLabel = new Label("Click the button below to randomly draw a card. " +
                 "The progress bar will indicate how far we're into the game.");
         Button drawCardButton = new Button("Draw Random Card");
         drawCardButton.setOnAction(this);
@@ -91,9 +89,14 @@ public class HelloApplication extends Application implements EventHandler<Action
     @Override
     public  void handle(ActionEvent actionEvent){
         System.out.println("Button clicked");
+        //get random card
+        int randomInt = (int) (Math.random() * LOTERIA_CARDS.length); //generates # 0-3
+        LoteriaCard randomCard = LOTERIA_CARDS[randomInt];
         //changes card image to random
+        cardImageView.setImage(randomCard.getImage()); //looks like constructor cardImageView
 
         //message label changes with new card
+        messageLabel.setText(randomCard.getCardName());
 
     }
     public static void main(String[] args) {
